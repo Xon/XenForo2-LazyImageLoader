@@ -6,10 +6,12 @@ use SV\LazyImageLoader\Helper;
 
 class Html extends XFCP_Html
 {
-	protected static $lazyLoadTemplate = null;
+	protected static $lazyLoadImageTemplate = null;
 
 	protected static $lazyLoadingEnabled = null;
 	protected static $forceSpoilerLazyLoad = null;
+
+	protected $originalImageTemplate = null;
 
 	public function __construct(\XF\Str\Formatter $formatter, \XF\Template\Templater $templater)
 	{
@@ -21,30 +23,39 @@ class Html extends XFCP_Html
 
 	public function renderTagImage(array $children, $option, array $tag, array $options)
 	{
-		if (self::$lazyLoadingEnabled)
+		try
 		{
-			$this->_imageTemplate = self::$lazyLoadTemplate;
-		}
+			$this->originalImageTemplate = $this->imageTemplate;
 
-		return parent::renderTagImage($children, $option, $tag, $options);
+			if (self::$lazyLoadingEnabled)
+			{
+				$this->imageTemplate = self::$lazyLoadImageTemplate;
+			}
+
+			return parent::renderTagImage($children, $option, $tag, $options);
+		} finally
+		{
+			$this->imageTemplate = $this->originalImageTemplate;
+		}
 	}
 
 	public function renderTagSpoiler(array $children, $option, array $tag, array $options)
 	{
-		$temp = $this->imageTemplate;
+		try
+		{
+			$this->originalImageTemplate = $this->imageTemplate;
 
-		if (self::$forceSpoilerLazyLoad)
+			if (self::$forceSpoilerLazyLoad)
+			{
+				Helper::setLazyLoadingEnabledState(true);
+				$this->imageTemplate = self::$lazyLoadImageTemplate;
+			}
+
+			return parent::renderTagSpoiler($children, $option, $tag, $options);
+		} finally
 		{
-			Helper::setLazyLoadingEnabledState(true);
-			$this->imageTemplate = self::$lazyLoadTemplate;
-		}
-		$response = parent::renderTagSpoiler($children, $option, $tag, $options);
-		if (self::$forceSpoilerLazyLoad)
-		{
-			$this->imageTemplate = $temp;
+			$this->imageTemplate = $this->originalImageTemplate;
 			Helper::setLazyLoadingEnabledState(false);
 		}
-
-		return $response;
 	}
 }
