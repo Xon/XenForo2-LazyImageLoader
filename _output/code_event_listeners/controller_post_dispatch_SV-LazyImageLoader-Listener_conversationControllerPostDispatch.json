@@ -1,0 +1,9 @@
+{
+    "event_id": "controller_post_dispatch",
+    "execute_order": 10,
+    "callback_class": "\\SV\\LazyImageLoader\\Listener",
+    "callback_method": "conversationControllerPostDispatch",
+    "active": true,
+    "hint": "XF\\Pub\\Controller\\Conversation",
+    "description": "XF\\Pub\\Controller\\Conversation"
+}

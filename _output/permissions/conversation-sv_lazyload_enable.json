@@ -1,0 +1,6 @@
+{
+    "permission_type": "flag",
+    "interface_group_id": "conversationPermissions",
+    "display_order": 50000,
+    "depend_permission_id": ""
+}

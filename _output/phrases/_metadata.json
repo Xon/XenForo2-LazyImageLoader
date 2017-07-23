@@ -1,0 +1,14 @@
+{
+    "permission.conversation_sv_lazyload_enable.txt": {
+        "global_cache": false,
+        "version_id": 2000070,
+        "version_string": "2.0.0",
+        "hash": "4e3deddd8a7b9cc17e10014bb3ced1f2"
+    },
+    "permission.forum_sv_lazyload_enable.txt": {
+        "global_cache": false,
+        "version_id": 2000070,
+        "version_string": "2.0.0",
+        "hash": "4e3deddd8a7b9cc17e10014bb3ced1f2"
+    }
+}
