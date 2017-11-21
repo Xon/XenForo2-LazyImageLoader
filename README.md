@@ -8,15 +8,15 @@ A zero query method for per user-group lazy loading of the [img] and [attach] ta
 Supports:
 - Attachments, and images.
 
-#Permissions
+# Permissions
 
 Adds the permission:
 - Enable Lazy Load Images
 For "Forum Permissions" and "Conversation Permissions" sections.
 
-#Unveil effects:
+# Unveil effects:
 
-##Fade in
+## Fade in
 ```css
 /* fade image in after load */
 .lazyload,
@@ -29,7 +29,7 @@ For "Forum Permissions" and "Conversation Permissions" sections.
 }
 ```
 
-##Spinner
+## Spinner
 ```css
 /* fade image in while loading and show a spinner as background image (good for progressive images) */
 
@@ -44,14 +44,14 @@ For "Forum Permissions" and "Conversation Permissions" sections.
 }
 ```
 
-#Options
+# Options
 
 "Enable Outside threads/conversations" permits the lazy loading bbcode injection to run outside of those contexts. Inside those context it will still respect permissions.
 May still not work for all cases outside threads/conversations.
 
 "Force Lazy Loaded Spoiler" forces lazy loading for the contents of a spoiler tag even if permissions disable lazy loading.
 
-#Known issues:
+# Known issues:
 
 - Doesn't work with XenForo Media Gallery.
 - Doesn't work with Resource Manager.
