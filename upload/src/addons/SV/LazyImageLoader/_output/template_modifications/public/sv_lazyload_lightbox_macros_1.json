@@ -1,9 +1,9 @@
 {
     "template": "lightbox_macros",
-    "description": "Inject Lazyload url & css",
+    "description": "Inject Lazyload url/css/js",
     "execution_order": 10,
     "enabled": true,
     "action": "preg_replace",
-    "find": "#(<img src=\")({\\$src})(\".*?class=\")([^\"]+\")#si",
-    "replace": "$1{{ $__globals.lzhelper.getUrl($src, $__globals) }}$3{{ $__globals.lzhelper.getCss($__globals) }}$4"
+    "find": "#(<img src=\")({\\$src})(\".*?class=\")([^\"]+\".*?/>)#si",
+    "replace": "<xf:set var=\"$imgTag\"><noscript>$1$2$3</noscript></xf:set>\n$1{ $__globals.lzhelper.getUrl($__globals, $src) }$3 { $__globals.lzhelper.getCss($__globals) }$4\n{ $__globals.lzhelper.getNoScriptBlock($__globals, $imgTag) }"
 }

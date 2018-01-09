@@ -11,17 +11,13 @@ use XF\Template\Templater;
 class Listener
 {
     protected static $lazyLoadPermInit = false;
-    /** @var Helper */
-    protected static $helper = null;
+
 
     protected static function loadArg(Templater $templater, &$params)
     {
-        if (self::$helper === null)
-        {
-            self::$helper = new Helper();
-        }
-        $params['lzhelper'] = self::$helper;
-        if (self::$helper->lazyLoading())
+        $helper = Helper::instance();
+        $params['lzhelper'] = $helper;
+        if ($helper->lazyLoading())
         {
             $templater->includeJs(
                 [
@@ -51,7 +47,7 @@ class Listener
         {
             self::$lazyLoadPermInit = true;
 
-            Helper::setLazyLoadingEnabledState(\XF::visitor()->hasPermission('conversation', 'sv_lazyload_enable'));
+            Helper::instance()->setLazyLoadingEnabledState(\XF::visitor()->hasPermission('conversation', 'sv_lazyload_enable'));
         }
     }
 
@@ -61,7 +57,7 @@ class Listener
         {
             self::$lazyLoadPermInit = true;
 
-            Helper::setLazyLoadingEnabledState(
+            Helper::instance()->setLazyLoadingEnabledState(
                 \XF::visitor()
                    ->hasNodePermission($thread->node_id, 'sv_lazyload_enable')
             );

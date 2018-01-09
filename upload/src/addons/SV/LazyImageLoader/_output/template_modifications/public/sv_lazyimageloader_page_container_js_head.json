@@ -1,9 +1,0 @@
-{
-    "template": "page_container_js_head",
-    "description": "Load Lazy Image Loader",
-    "execution_order": 10,
-    "enabled": true,
-    "action": "preg_replace",
-    "find": "#$#",
-    "replace": "$0\n<script src=\"{$javaScriptSource}/SV/LazyImageLoader/lazysizes.min.js\" async=\"\"></script>"
-}

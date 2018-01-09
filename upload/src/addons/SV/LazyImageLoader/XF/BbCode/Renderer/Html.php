@@ -17,7 +17,7 @@ class Html extends XFCP_Html
     {
         parent::__construct($formatter, $templater);
 
-        self::$lazyLoadingEnabled = Helper::lazyLoading();
+        self::$lazyLoadingEnabled = Helper::instance()->lazyLoading();
         self::$forceSpoilerLazyLoad = !self::$lazyLoadingEnabled && \XF::options()->sv_forceLazySpoilerTag;
     }
 
@@ -46,7 +46,7 @@ class Html extends XFCP_Html
         {
             if (self::$forceSpoilerLazyLoad)
             {
-                Helper::setLazyLoadingEnabledState(true);
+                Helper::instance()->setLazyLoadingEnabledState(true);
                 $this->imageTemplate = static::$lazyLoadImageTemplate;
             }
 
@@ -57,7 +57,7 @@ class Html extends XFCP_Html
             $this->imageTemplate = $originalImageTemplate;
             if (self::$forceSpoilerLazyLoad)
             {
-                Helper::setLazyLoadingEnabledState(false);
+                Helper::instance()->setLazyLoadingEnabledState(false);
             }
         }
     }
