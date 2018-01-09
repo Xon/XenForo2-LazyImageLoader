@@ -1,14 +1,62 @@
 {
+    "option.SV_LazyLoader_EnableDefault.txt": {
+        "global_cache": false,
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "2277ac04b263607387e962e71879b487"
+    },
+    "option.sv_forceLazySpoilerTag.txt": {
+        "global_cache": false,
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "3182fa6dae7657f301c7e45e8e164764"
+    },
+    "option_SV_LazyLoader_EnableDefault.txt": {
+        "global_cache": false,
+        "version_id": 100001,
+        "version_string": "1.0.01",
+        "hash": "2277ac04b263607387e962e71879b487"
+    },
+    "option_explain.SV_LazyLoader_EnableDefault.txt": {
+        "global_cache": false,
+        "version_id": 100001,
+        "version_string": "1.0.01",
+        "hash": "7733f4a5b4a6f6b571b36ed6ef2206ac"
+    },
+    "option_explain.sv_forceLazySpoilerTag.txt": {
+        "global_cache": false,
+        "version_id": 100040,
+        "version_string": "1.0.4",
+        "hash": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "option_group.SV_LazyLoader.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "0.0.1",
+        "hash": "6381bd74d5a0f90bbb1829f1fcd89881"
+    },
+    "option_group_description.SV_LazyLoader.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "0.0.1",
+        "hash": "c17596b1ab940fc166d5a36e7e6449a5"
+    },
+    "option_sv_forceLazySpoilerTag.txt": {
+        "global_cache": false,
+        "version_id": 100040,
+        "version_string": "1.0.4",
+        "hash": "3182fa6dae7657f301c7e45e8e164764"
+    },
     "permission.conversation_sv_lazyload_enable.txt": {
         "global_cache": false,
-        "version_id": 2000070,
+        "version_id": 2000000,
         "version_string": "2.0.0",
-        "hash": "4e3deddd8a7b9cc17e10014bb3ced1f2"
+        "hash": "6862d59f86b279b22e9204fb705dcc83"
     },
     "permission.forum_sv_lazyload_enable.txt": {
         "global_cache": false,
-        "version_id": 2000070,
+        "version_id": 2000000,
         "version_string": "2.0.0",
-        "hash": "4e3deddd8a7b9cc17e10014bb3ced1f2"
+        "hash": "6862d59f86b279b22e9204fb705dcc83"
     }
 }

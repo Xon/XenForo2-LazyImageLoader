@@ -1,0 +1,1 @@
+By default, lazy loading is disabled outside of threads or conversations for areas which use bb code.

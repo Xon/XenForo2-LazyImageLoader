@@ -1,9 +1,0 @@
-{
-    "template": "bb_code_tag_attach",
-    "description": "",
-    "execution_order": 10,
-    "enabled": true,
-    "action": "preg_replace",
-    "find": "#(<img\\s+src=\")([^\"]*)(\".*?class=\"[^\"]*)(\".*?alt=\"[^\"]*)(\"\\s*?\\/>)#is",
-    "replace": "$1<xen:callback class='SV_LazyImageLoader_Helper' method='getLazySpinnerUrl' params='{xen:array 'url=$2', 'width={xen:if '$2 == {$attachment.attachmentUrl}', '{$attachment.width}', '{$attachment.thumbnail_width}'}', 'height={xen:if '$2 == {$attachment.attachmentUrl}', '{$attachment.height}', '{$attachment.thumbnail_height}'}'}' />$3 <xen:callback class='SV_LazyImageLoader_Helper' method='getLazySpinnerCss' params='{xen:array 'full={$full}', 'attachment={$attachment}', 'extra=$4', 'noscript={$1$2$3$4}'}' />"
-}

@@ -1,0 +1,9 @@
+{
+    "template": "bb_code.less",
+    "description": "Add NoJs support",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#$#",
+    "replace": "$0\n.NoJs .lazyload\n{\n\tdisplay:none;\n}"
+}

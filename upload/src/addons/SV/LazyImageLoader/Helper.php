@@ -6,13 +6,22 @@ use XF\Template\Templater;
 
 class Helper
 {
+    /**
+     * @var bool|null
+     */
     protected static $lazyLoadingEnabled = null;
 
+    /**
+     * @param bool $enabled
+     */
     public static function setLazyLoadingEnabledState($enabled)
     {
         self::$lazyLoadingEnabled = $enabled ? true : false;
     }
 
+    /**
+     * @return bool|null
+     */
     public static function lazyLoadingEnabled()
     {
         if (self::$lazyLoadingEnabled === null)
@@ -23,6 +32,42 @@ class Helper
         return self::$lazyLoadingEnabled;
     }
 
+    /**
+     * @param string    $content
+     * @param array     $params
+     * @param Templater $template
+     * @return string
+     */
+    public static function getLazySpinnerCss($content, $params, Templater $template)
+    {
+        if (self::$lazyLoadingEnabled)
+        {
+            $css = 'lazyload';
+            if (!empty($params['attachment']))
+            {
+                $attachment = $params['attachment'];
+                if (!empty($params['full']) && !empty($attachment['width']) && !empty($attachment['height']))
+                {
+                    $css .= '" style="max-width:' . $attachment['width'] . 'px ';
+                }
+                else if (!empty($attachment['thumbnail_width']) && !empty($attachment['thumbnail_height']))
+                {
+                    $css .= '" style="max-width:' . $attachment['thumbnail_width'] . 'px ';
+                }
+            }
+            return $css . @$params['extra'] . '<noscript>' . @$params['noscript'] . '</noscript>';
+        }
+
+        return @$params['extra'];
+    }
+
+
+    /**
+     * @param string    $content
+     * @param array     $params
+     * @param Templater $template
+     * @return string
+     */
     public static function getLazySpinnerUrl($content, $params, Templater $template)
     {
         $originalUrl = is_array($params) ? $params['url'] : $params;
