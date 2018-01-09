@@ -1,0 +1,9 @@
+{
+    "event_id": "templater_template_pre_render",
+    "execute_order": 10,
+    "callback_class": "SV\\LazyImageLoader\\Listener",
+    "callback_method": "templaterTemplatePreRender",
+    "active": true,
+    "hint": "public:bb_code_tag_attach",
+    "description": "public:bb_code_tag_attach"
+}

@@ -1,0 +1,9 @@
+{
+    "template": "lightbox_macros",
+    "description": "Inject Lazyload url & css",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#(<img src=\")({\\$src})(\".*?class=\")([^\"]+\")#si",
+    "replace": "$1{{ $__globals.lzhelper.getUrl($src, $__globals) }}$3{{ $__globals.lzhelper.getCss($__globals) }}$4"
+}

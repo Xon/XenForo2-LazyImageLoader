@@ -17,7 +17,7 @@ class Html extends XFCP_Html
     {
         parent::__construct($formatter, $templater);
 
-        self::$lazyLoadingEnabled = Helper::lazyLoadingEnabled();
+        self::$lazyLoadingEnabled = Helper::lazyLoading();
         self::$forceSpoilerLazyLoad = !self::$lazyLoadingEnabled && \XF::options()->sv_forceLazySpoilerTag;
     }
 
