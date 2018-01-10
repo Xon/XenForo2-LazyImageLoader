@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "preg_replace",
     "find": "#$#",
-    "replace": "$0\n.NoJs .lazyload\n{\n\tdisplay:none;\n}"
+    "replace": "$0\n.has-no-js .lazyload\n{\n\tdisplay:none;\n}"
 }
