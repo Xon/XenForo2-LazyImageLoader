@@ -2,7 +2,10 @@
     "public/sv_lazyimageloader_bb_codecss_1.json": {
         "hash": "856321c322acb40cb41f2192950eceb0"
     },
+    "public/sv_lazyload_bb_code_tag_attach_1.json": {
+        "hash": "aa97c5304d25e1d87102b70382a4d3e8"
+    },
     "public/sv_lazyload_lightbox_macros_1.json": {
-        "hash": "1ed21ffa0a2de78d3f90955131e27caf"
+        "hash": "30a97aa2b174e96fc734f9aa18c868c0"
     }
 }

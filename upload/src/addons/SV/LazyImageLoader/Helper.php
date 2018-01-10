@@ -2,6 +2,8 @@
 
 namespace SV\LazyImageLoader;
 
+use XF\Entity\Attachment;
+
 class Helper
 {
     /** @var Helper */
@@ -14,8 +16,10 @@ class Helper
     {
         if (self::$helper === null)
         {
-            self::$helper = new Helper();
+            $class = \XF::extendClass('SV\LazyImageLoader\Helper');
+            self::$helper = new $class();
         }
+
         return self::$helper;
     }
 
@@ -45,23 +49,50 @@ class Helper
         return $this->lazyLoadingEnabled;
     }
 
-    public function getNoScriptBlock($globals, $imgTag)
+    /**
+     * @param array $globals
+     * @return bool
+     */
+    public function isNotScripBlockNeeded(array $globals)
     {
-        if ($this->lazyLoading())
-        {
-            return $imgTag;
-        }
-        return '';
+        return !empty($globals['lz_enabled']) || $this->lazyLoading();
     }
 
-    public function getUrl($globals, $url, $width = 0, $height = 0)
+    /**
+     * @param array  $globals
+     * @param string $url
+     * @return string
+     */
+    public function getUrl(array $globals, $url)
     {
-        if ($this->lazyLoading())
+        if (!empty($globals['lz_enabled']) || $this->lazyLoading())
         {
             $placeholder = '';
-            if ($width && $height)
+
+            $attachment = isset($globals['attachment']) ? $globals['attachment'] : null;
+            $full = !empty($globals['full']);
+            if ($attachment instanceof Attachment)
             {
-                $placeholder = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 {$width} {$height}'%2F%3E";
+                $width = $height = 0;
+                $attachmentData = $attachment->Data;
+                if ($attachmentData)
+                {
+                    if ($full)
+                    {
+                        $width = $attachmentData->width;
+                        $height = $attachmentData->height;
+                    }
+                    else if ($attachment->has_thumbnail)
+                    {
+                        $width = $attachmentData->thumbnail_width;
+                        $height = $attachmentData->thumbnail_height;
+                    }
+                }
+
+                if ($width && $height)
+                {
+                    $placeholder = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 {$width} {$height}'%2F%3E";
+                }
             }
 
             // Insert an SVG with proper aspect ratio to make responsive design work smoothly
@@ -71,24 +102,15 @@ class Helper
         return $url;
     }
 
-    public function getCss($globals)
+    /**
+     * @param array $globals
+     * @return string
+     */
+    public function getCss(array $globals)
     {
-        if ($this->lazyLoading())
+        if (!empty($globals['lz_enabled']) || $this->lazyLoading())
         {
-            $css = 'lazyload';
-            if (!empty($globals['attachment']))
-            {
-                $attachment = $globals['attachment'];
-                if (!empty($globals['full']) && !empty($attachment['width']) && !empty($attachment['height']))
-                {
-                    $css .= '" style="max-width:' . $attachment['width'] . 'px ';
-                }
-                else if (!empty($attachment['thumbnail_width']) && !empty($attachment['thumbnail_height']))
-                {
-                    $css .= '" style="max-width:' . $attachment['thumbnail_width'] . 'px ';
-                }
-            }
-            return $css;// . @$params['extra'] . '<noscript>' . @$params['noscript'] . '</noscript>';
+            return ' lazyload';
         }
 
         return '';

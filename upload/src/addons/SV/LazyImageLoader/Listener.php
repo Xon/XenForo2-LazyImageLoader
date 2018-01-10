@@ -12,17 +12,17 @@ class Listener
 {
     protected static $lazyLoadPermInit = false;
 
-
-    protected static function loadArg(Templater $templater, &$params)
+    public static function templaterTemplatePreRender(Templater $templater, &$type, &$template, array &$params)
     {
         $helper = Helper::instance();
         $params['lzhelper'] = $helper;
         if ($helper->lazyLoading())
         {
+            $params['lz_enabled'] = true;
             $templater->includeJs(
                 [
                     'addon' => 'SV/LazyImageLoader',
-                    'prod'   => 'sv/lazyimageloader/lazysizes.min.js',
+                    'prod'  => 'sv/lazyimageloader/lazysizes.min.js',
                     'dev'   => 'sv/lazyimageloader/lazysizes.js',
                     'min'   => false,
                 ]
@@ -30,16 +30,10 @@ class Listener
         }
     }
 
-    public static function templaterTemplatePreRender(Templater $templater, &$type, &$template, array &$params)
-    {
-        static::loadArg($templater, $params);
-    }
-
     public static function templaterMacroPreRender(Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
     {
-        static::loadArg($templater, $globalVars);
+        $globalVars['lzhelper'] = Helper::instance();
     }
-
 
     public static function conversationControllerPostDispatch(Controller $controller, $action, ParameterBag $params, AbstractReply &$reply)
     {

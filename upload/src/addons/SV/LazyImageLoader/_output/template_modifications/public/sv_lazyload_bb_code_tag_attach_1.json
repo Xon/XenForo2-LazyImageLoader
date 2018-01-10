@@ -1,5 +1,5 @@
 {
-    "template": "lightbox_macros",
+    "template": "bb_code_tag_attach",
     "description": "Inject Lazyload url/css/js",
     "execution_order": 10,
     "enabled": true,
