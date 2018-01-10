@@ -65,6 +65,7 @@ class Helper
      */
     public function getUrl(array $globals, $url)
     {
+        $url = htmlspecialchars(strval($url), ENT_QUOTES, 'UTF-8', false);
         if (!empty($globals['lz_enabled']) || $this->lazyLoading())
         {
             $placeholder = '';
