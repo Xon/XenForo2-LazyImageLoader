@@ -1,0 +1,1 @@
+To prevent jank, inject an inline SVG with the same dimensions as the attachment

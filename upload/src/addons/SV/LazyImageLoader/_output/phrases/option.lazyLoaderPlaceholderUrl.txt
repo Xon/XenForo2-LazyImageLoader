@@ -1,0 +1,1 @@
+Inject blank SVG for attachment

@@ -2,6 +2,9 @@
     "SV_LazyLoader_EnableDefault.json": {
         "hash": "f61b0545e550a078bad02ea8f352b2cd"
     },
+    "lazyLoaderPlaceholderUrl.json": {
+        "hash": "4f67c4aba4b909e80547102691122650"
+    },
     "sv_forceLazySpoilerTag.json": {
         "hash": "2bc981fad2e3d54569d389d68fa49977"
     }

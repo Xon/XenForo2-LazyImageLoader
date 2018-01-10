@@ -74,29 +74,32 @@ class Helper
         {
             $placeholder = '';
 
-            $attachment = isset($globals['attachment']) ? $globals['attachment'] : null;
-            $full = !empty($globals['full']);
-            if ($attachment instanceof Attachment)
+            if (\XF::options()->lazyLoaderPlaceholderUrl)
             {
-                $width = $height = 0;
-                $attachmentData = $attachment->Data;
-                if ($attachmentData)
+                $attachment = isset($globals['attachment']) ? $globals['attachment'] : null;
+                $full = !empty($globals['full']);
+                if ($attachment instanceof Attachment)
                 {
-                    if ($full)
+                    $width = $height = 0;
+                    $attachmentData = $attachment->Data;
+                    if ($attachmentData)
                     {
-                        $width = $attachmentData->width;
-                        $height = $attachmentData->height;
+                        if ($full)
+                        {
+                            $width = $attachmentData->width;
+                            $height = $attachmentData->height;
+                        }
+                        else if ($attachment->has_thumbnail)
+                        {
+                            $width = $attachmentData->thumbnail_width;
+                            $height = $attachmentData->thumbnail_height;
+                        }
                     }
-                    else if ($attachment->has_thumbnail)
-                    {
-                        $width = $attachmentData->thumbnail_width;
-                        $height = $attachmentData->thumbnail_height;
-                    }
-                }
 
-                if ($width && $height)
-                {
-                    $placeholder = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 {$width} {$height}'%2F%3E";
+                    if ($width && $height)
+                    {
+                        $placeholder = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 {$width} {$height}'%2F%3E";
+                    }
                 }
             }
 
@@ -113,11 +116,13 @@ class Helper
      */
     public function getCss(array $globals)
     {
+        $css = '';
+
         if (!empty($globals['lz_enabled']) || $this->lazyLoading())
         {
-            return ' lazyload';
+            $css = ' lazyload';
         }
 
-        return '';
+        return $css;
     }
 }
