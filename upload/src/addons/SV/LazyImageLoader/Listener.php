@@ -28,6 +28,11 @@ class Listener
                 ]
             );
         }
+        if (!isset($params['__globals']))
+        {
+            // kinda silly
+            $params['__globals'] = $params;
+        }
     }
 
     public static function templaterMacroPreRender(Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)

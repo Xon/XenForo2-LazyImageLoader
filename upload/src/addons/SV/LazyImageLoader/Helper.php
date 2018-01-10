@@ -61,11 +61,15 @@ class Helper
     /**
      * @param array  $globals
      * @param string $url
+     * @param bool   $urlNotEscaped
      * @return string
      */
-    public function getUrl(array $globals, $url)
+    public function getUrl(array $globals, $url, $urlNotEscaped = true)
     {
-        $url = htmlspecialchars(strval($url), ENT_QUOTES, 'UTF-8', false);
+        if ($urlNotEscaped)
+        {
+            $url = htmlspecialchars(strval($url), ENT_QUOTES, 'UTF-8', false);
+        }
         if (!empty($globals['lz_enabled']) || $this->lazyLoading())
         {
             $placeholder = '';

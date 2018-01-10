@@ -4,6 +4,6 @@
     "execution_order": 10,
     "enabled": true,
     "action": "preg_replace",
-    "find": "#(<img src=\")({\\$src})(\".*?class=\"[^\"]+)(\".*?/>)#si",
-    "replace": "$1{{ $__globals.lzhelper.getUrl($__globals, $src) |raw}}$3{{ $__globals.lzhelper.getCss($__globals) |raw}}$4\n<xf:if is=\"$__globals.lzhelper.isNotScripBlockNeeded($__globals)\">\n<noscript>$1$2$3$4</noscript>\n</xf:if>"
+    "find": "#(<img src=\")([^\"]+)(\".*?class=\"[^\"]+)(\".*?/>)#si",
+    "replace": "\n$1{{ $__globals.lzhelper.getUrl($__globals, $src) |raw}}$3{{ $__globals.lzhelper.getCss($__globals) |raw}}$4\n<xf:if is=\"$__globals.lzhelper.isNotScripBlockNeeded($__globals)\">\n<noscript>$1$2$3$4</noscript>\n</xf:if>\n"
 }
