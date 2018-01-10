@@ -7,8 +7,8 @@
     },
     "option.lazyLoaderPlaceholderUrl.txt": {
         "global_cache": false,
-        "version_id": 2000000,
-        "version_string": "2.0.0",
+        "version_id": 2000200,
+        "version_string": "2.0.2",
         "hash": "dcb9dcce5a0b4a23dcb3b21fb483abbd"
     },
     "option.sv_forceLazySpoilerTag.txt": {
@@ -31,8 +31,8 @@
     },
     "option_explain.lazyLoaderPlaceholderUrl.txt": {
         "global_cache": false,
-        "version_id": 2000000,
-        "version_string": "2.0.0",
+        "version_id": 2000200,
+        "version_string": "2.0.2",
         "hash": "2cbdc950c7715d71fc07718371d7b067"
     },
     "option_explain.sv_forceLazySpoilerTag.txt": {
