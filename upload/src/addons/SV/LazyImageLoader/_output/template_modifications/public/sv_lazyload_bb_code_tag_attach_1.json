@@ -1,7 +1,7 @@
 {
     "template": "bb_code_tag_attach",
     "description": "Inject Lazyload url/css/js",
-    "execution_order": 10,
+    "execution_order": 6057,
     "enabled": true,
     "action": "preg_replace",
     "find": "#(<img src=\")([^\"]+)(\".*?class=\"[^\"]+)(\".*?/>)#si",

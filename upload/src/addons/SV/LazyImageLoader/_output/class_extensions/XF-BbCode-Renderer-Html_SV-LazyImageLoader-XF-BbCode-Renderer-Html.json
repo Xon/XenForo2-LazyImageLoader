@@ -1,6 +1,6 @@
 {
     "from_class": "XF\\BbCode\\Renderer\\Html",
     "to_class": "SV\\LazyImageLoader\\XF\\BbCode\\Renderer\\Html",
-    "execute_order": 10,
+    "execute_order": 6057,
     "active": true
 }
