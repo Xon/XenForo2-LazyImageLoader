@@ -1,8 +1,6 @@
 {
   "additional_files": [
-    "js/sv/lazyimageloader/lazysizes.js"
-  ],
-  "minify": [
-    "js/sv/lazyimageloader/lazysizes.js"
+    "js/sv/lazyimageloader/lazysizes.js",
+    "js/sv/lazyimageloader/lazysizes.min.js"
   ]
 }
