@@ -8,6 +8,7 @@ use XF\Template\Templater;
 
 class Html extends XFCP_Html
 {
+    protected static $lazyLoadImageTemplate2 = '<img data-src="%1$s" data-url="%2$s" class="bbImage lazyload %3$s" style="%4$s" alt="%5$s" title="%5$s" /><noscript><img src="%1$s" class="bbImage %3$s"  alt="%5$s" title="%5$s"></noscript>';
     protected static $lazyLoadImageTemplate = '<img data-src="%1$s" class="bbImage lazyload" alt="" data-url="%2$s" /><noscript><img src="%1$s" class="bbImage"></noscript>';
 
     protected static $lazyLoadingEnabled   = null;
@@ -28,7 +29,7 @@ class Html extends XFCP_Html
         {
             if (self::$lazyLoadingEnabled)
             {
-                $this->imageTemplate = static::$lazyLoadImageTemplate;
+                $this->imageTemplate = \XF::$versionId > 2010000 ? static::$lazyLoadImageTemplate2 : static::$lazyLoadImageTemplate;
             }
 
             return parent::renderTagImage($children, $option, $tag, $options);
@@ -47,7 +48,7 @@ class Html extends XFCP_Html
             if (self::$forceSpoilerLazyLoad)
             {
                 Helper::instance()->setLazyLoadingEnabledState(true);
-                $this->imageTemplate = static::$lazyLoadImageTemplate;
+                $this->imageTemplate = \XF::$versionId > 2010000 ? static::$lazyLoadImageTemplate2 : static::$lazyLoadImageTemplate;
             }
 
             return parent::renderTagSpoiler($children, $option, $tag, $options);
