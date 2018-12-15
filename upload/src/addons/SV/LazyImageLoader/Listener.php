@@ -42,7 +42,7 @@ class Listener
 
     public static function conversationControllerPostDispatch(Controller $controller, $action, ParameterBag $params, AbstractReply &$reply)
     {
-        if (!self::$lazyLoadPermInit && $reply instanceof View )
+        if (!self::$lazyLoadPermInit && $reply instanceof View)
         {
             self::$lazyLoadPermInit = true;
 
@@ -56,10 +56,7 @@ class Listener
         {
             self::$lazyLoadPermInit = true;
 
-            Helper::instance()->setLazyLoadingEnabledState(
-                \XF::visitor()
-                   ->hasNodePermission($thread->node_id, 'sv_lazyload_enable')
-            );
+            Helper::instance()->setLazyLoadingEnabledState(\XF::visitor()->hasNodePermission($thread->node_id, 'sv_lazyload_enable'));
         }
     }
 }
