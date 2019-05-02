@@ -4,18 +4,27 @@ namespace SV\LazyImageLoader;
 
 use XF\Entity\Attachment;
 
+/**
+ * Class Helper
+ *
+ * @package SV\LazyImageLoader
+ */
 class Helper
 {
-    /** @var Helper */
-    protected static $helper = null;
+    /**
+     * @var null|Helper
+     */
+    protected static $helper;
 
     /**
      * @return Helper
+     * @throws \Exception
      */
     public static function instance()
     {
         if (self::$helper === null)
         {
+            /** @noinspection ClassConstantCanBeUsedInspection */
             $class = \XF::extendClass('SV\LazyImageLoader\Helper');
             self::$helper = new $class();
         }
@@ -26,7 +35,7 @@ class Helper
     /**
      * @var bool|null
      */
-    protected $lazyLoadingEnabled = null;
+    protected $lazyLoadingEnabled;
 
     /**
      * @param bool $enabled
@@ -68,7 +77,7 @@ class Helper
     {
         if ($urlNotEscaped)
         {
-            $url = htmlspecialchars(strval($url), ENT_QUOTES, 'UTF-8', false);
+            $url = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
         }
         if (!empty($globals['lz_enabled']) || $this->lazyLoading())
         {

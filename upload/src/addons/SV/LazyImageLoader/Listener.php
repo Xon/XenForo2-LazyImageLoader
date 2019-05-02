@@ -8,11 +8,24 @@ use XF\Mvc\Reply\AbstractReply;
 use XF\Mvc\Reply\View;
 use XF\Template\Templater;
 
+/**
+ * Class Listener
+ *
+ * @package SV\LazyImageLoader
+ */
 class Listener
 {
     protected static $lazyLoadPermInit = false;
 
-    public static function templaterTemplatePreRender(Templater $templater, &$type, &$template, array &$params)
+    /**
+     * @param Templater $templater
+     * @param string    $type
+     * @param string    $template
+     * @param array     $params
+     *
+     * @throws \Exception
+     */
+    public static function templaterTemplatePreRender(/** @noinspection PhpUnusedParameterInspection */Templater $templater, &$type, &$template, array &$params)
     {
         $helper = Helper::instance();
         $params['lzhelper'] = $helper;
@@ -22,9 +35,9 @@ class Listener
             $templater->includeJs(
                 [
                     'addon' => 'SV/LazyImageLoader',
-                    'prod'  => 'sv/lazyimageloader/lazysizes.min.js',
-                    'dev'   => 'sv/lazyimageloader/lazysizes.js',
-                    'min'   => false,
+                    'prod' => 'sv/lazyimageloader/lazysizes.min.js',
+                    'dev' => 'sv/lazyimageloader/lazysizes.js',
+                    'min' => false,
                 ]
             );
         }
@@ -35,12 +48,30 @@ class Listener
         }
     }
 
-    public static function templaterMacroPreRender(Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
+    /**
+     * @param Templater $templater
+     * @param string    $type
+     * @param string    $template
+     * @param string    $name
+     * @param array     $arguments
+     * @param array     $globalVars
+     *
+     * @throws \Exception
+     */
+    public static function templaterMacroPreRender(/** @noinspection PhpUnusedParameterInspection */Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
     {
         $globalVars['lzhelper'] = Helper::instance();
     }
 
-    public static function conversationControllerPostDispatch(Controller $controller, $action, ParameterBag $params, AbstractReply &$reply)
+    /**
+     * @param Controller    $controller
+     * @param string        $action
+     * @param ParameterBag  $params
+     * @param AbstractReply $reply
+     *
+     * @throws \Exception
+     */
+    public static function conversationControllerPostDispatch(/** @noinspection PhpUnusedParameterInspection */Controller $controller, $action, ParameterBag $params, /** @noinspection ReferencingObjectsInspection */AbstractReply &$reply)
     {
         if (!self::$lazyLoadPermInit && $reply instanceof View)
         {
@@ -50,7 +81,15 @@ class Listener
         }
     }
 
-    public static function threadControllerPostDispatch(Controller $controller, $action, ParameterBag $params, AbstractReply &$reply)
+    /**
+     * @param Controller    $controller
+     * @param string        $action
+     * @param ParameterBag  $params
+     * @param AbstractReply $reply
+     *
+     * @throws \Exception
+     */
+    public static function threadControllerPostDispatch(/** @noinspection PhpUnusedParameterInspection */Controller $controller, $action, ParameterBag $params, /** @noinspection ReferencingObjectsInspection */AbstractReply &$reply)
     {
         if (!self::$lazyLoadPermInit && $reply instanceof View && $thread = $reply->getParam('thread'))
         {
