@@ -1,9 +1,0 @@
-{
-    "event_id": "templater_macro_pre_render",
-    "execute_order": 6057,
-    "callback_class": "SV\\LazyImageLoader\\Listener",
-    "callback_method": "templaterMacroPreRender",
-    "active": true,
-    "hint": "public:lightbox_macros:single_image",
-    "description": "public:lightbox_macros"
-}

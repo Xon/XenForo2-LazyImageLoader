@@ -14,7 +14,7 @@ use XF\Template\Templater;
 class Html extends XFCP_Html
 {
     protected static $lazyLoadImageTemplate2 = '<img data-src="%1$s" data-url="%2$s" class="bbImage lazyload %3$s" style="%4$s" alt="%5$s" title="%5$s" /><noscript><img src="%1$s" class="bbImage %3$s"  alt="%5$s" title="%5$s"></noscript>';
-    protected static $lazyLoadImageTemplate = '<img data-src="%1$s" class="bbImage lazyload" alt="" data-url="%2$s" /><noscript><img src="%1$s" class="bbImage"></noscript>';
+    protected static /** @noinspection HtmlRequiredAltAttribute */ $lazyLoadImageTemplate  = '<img data-src="%1$s" class="bbImage lazyload" alt="" data-url="%2$s" /><noscript><img src="%1$s" class="bbImage"></noscript>';
 
     /**
      * @var null|bool
@@ -47,8 +47,8 @@ class Html extends XFCP_Html
      * @param mixed $option
      * @param array $tag
      * @param array $options
-     *
      * @return null|string|string[]
+     * @throws \Exception
      */
     public function renderTagImage(array $children, $option, array $tag, array $options)
     {
@@ -57,6 +57,7 @@ class Html extends XFCP_Html
         {
             if (self::$lazyLoadingEnabled)
             {
+                Helper::instance()->enqueueJs();
                 $this->imageTemplate = \XF::$versionId > 2010000 ? static::$lazyLoadImageTemplate2 : static::$lazyLoadImageTemplate;
             }
 

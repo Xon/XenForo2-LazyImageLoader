@@ -17,6 +17,26 @@ class Helper
     protected static $helper;
 
     /**
+     * @var \XF\Template\Templater
+     */
+    protected $templater;
+
+    /**
+     * @var bool
+     */
+    protected $forceDisabled = true;
+
+    /**
+     * @var bool|null
+     */
+    protected $lazyLoadingEnabled;
+
+    /**
+     * @var bool
+     */
+    protected $hasLazyLoadingSetup = false;
+
+    /**
      * @return Helper
      * @throws \Exception
      */
@@ -32,16 +52,29 @@ class Helper
         return self::$helper;
     }
 
+    public function allowEnabling(\XF\Template\Templater $templater)
+    {
+        $this->forceDisabled = false;
+        $this->templater = $templater;
+    }
+
     /**
-     * @var bool|null
+     * @return bool
      */
-    protected $lazyLoadingEnabled;
+    public function hasLazyLoadingSetup()
+    {
+        return !$this->forceDisabled && $this->hasLazyLoadingSetup;
+    }
 
     /**
      * @param bool $enabled
      */
     public function setLazyLoadingEnabledState($enabled)
     {
+        if ($enabled)
+        {
+            $this->hasLazyLoadingSetup = true;
+        }
         $this->lazyLoadingEnabled = $enabled ? true : false;
     }
 
@@ -52,19 +85,47 @@ class Helper
     {
         if ($this->lazyLoadingEnabled === null)
         {
-            $this->lazyLoadingEnabled = \XF::options()->SV_LazyLoader_EnableDefault;
+            $this->setLazyLoadingEnabledState(\XF::options()->SV_LazyLoader_EnableDefault);
         }
 
-        return $this->lazyLoadingEnabled;
+        return !$this->forceDisabled && $this->lazyLoadingEnabled;
     }
 
     /**
      * @param array $globals
      * @return bool
      */
-    public function isNotScripBlockNeeded(array $globals)
+    public function isNotScripBlockNeeded(/** @noinspection PhpUnusedParameterInspection */ array $globals)
     {
-        return !empty($globals['lz_enabled']) || $this->lazyLoading();
+        return $this->lazyLoading();
+    }
+
+    protected $hasIncluded = false;
+    public function enqueueJs()
+    {
+        if ($this->hasIncluded || $this->forceDisabled)
+        {
+            return;
+        }
+        $this->hasIncluded = true;
+
+        $this->templater->includeJs(
+            [
+                'addon' => 'SV/LazyImageLoader',
+                'prod'  => 'sv/lazyimageloader/lazysizes.min.js',
+                'dev'   => 'sv/lazyimageloader/lazysizes.js',
+                'min'   => false,
+            ]
+        );
+
+        $this->templater->includeJs(
+            [
+                'addon' => 'SV/LazyImageLoader',
+                'prod'  => 'sv/lazyimageloader/xf/lightbox.min.js',
+                'dev'   => 'sv/lazyimageloader/xf/lightbox.js',
+                'min'   => false,
+            ]
+        );
     }
 
     /**
@@ -79,9 +140,10 @@ class Helper
         {
             $url = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
         }
-        if (!empty($globals['lz_enabled']) || $this->lazyLoading())
+        if ($this->lazyLoading())
         {
             $placeholder = '';
+            $this->enqueueJs();
 
             if (\XF::options()->lazyLoaderPlaceholderUrl)
             {
@@ -123,11 +185,11 @@ class Helper
      * @param array $globals
      * @return string
      */
-    public function getCss(array $globals)
+    public function getCss(/** @noinspection PhpUnusedParameterInspection */ array $globals)
     {
         $css = '';
 
-        if (!empty($globals['lz_enabled']) || $this->lazyLoading())
+        if ($this->lazyLoading())
         {
             $css = ' lazyload';
         }

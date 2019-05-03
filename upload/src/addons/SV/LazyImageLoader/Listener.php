@@ -15,52 +15,24 @@ use XF\Template\Templater;
  */
 class Listener
 {
-    protected static $lazyLoadPermInit = false;
-
-    /**
-     * @param Templater $templater
-     * @param string    $type
-     * @param string    $template
-     * @param array     $params
-     *
-     * @throws \Exception
-     */
-    public static function templaterTemplatePreRender(/** @noinspection PhpUnusedParameterInspection */Templater $templater, &$type, &$template, array &$params)
+    public static function templaterSetup(/** @noinspection PhpUnusedParameterInspection */ \XF\Container $container, \XF\Template\Templater &$templater)
     {
         $helper = Helper::instance();
-        $params['lzhelper'] = $helper;
-        if ($helper->lazyLoading())
+        if ($templater instanceof \XF\Mail\Templater)
         {
-            $params['lz_enabled'] = true;
-            $templater->includeJs(
-                [
-                    'addon' => 'SV/LazyImageLoader',
-                    'prod' => 'sv/lazyimageloader/lazysizes.min.js',
-                    'dev' => 'sv/lazyimageloader/lazysizes.js',
-                    'min' => false,
-                ]
-            );
+            // do not enable lazy loading for emails
         }
-        if (!isset($params['__globals']))
+        else
         {
-            // kinda silly
-            $params['__globals'] = $params;
+            $helper->allowEnabling($templater);
         }
+
+        $templater->addDefaultParam('lzhelper', $helper);
     }
 
-    /**
-     * @param Templater $templater
-     * @param string    $type
-     * @param string    $template
-     * @param string    $name
-     * @param array     $arguments
-     * @param array     $globalVars
-     *
-     * @throws \Exception
-     */
-    public static function templaterMacroPreRender(/** @noinspection PhpUnusedParameterInspection */Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
+    public static function templaterPostRender()
     {
-        $globalVars['lzhelper'] = Helper::instance();
+
     }
 
     /**
@@ -73,11 +45,9 @@ class Listener
      */
     public static function conversationControllerPostDispatch(/** @noinspection PhpUnusedParameterInspection */Controller $controller, $action, ParameterBag $params, /** @noinspection ReferencingObjectsInspection */AbstractReply &$reply)
     {
-        if (!self::$lazyLoadPermInit && $reply instanceof View)
+        if ($reply instanceof View)
         {
-            self::$lazyLoadPermInit = true;
-
-            Helper::instance()->setLazyLoadingEnabledState(\XF::visitor()->hasPermission('conversation', 'sv_lazyload_enable'));
+            Helper::instance()->setLazyLoadingEnabledState((int)\XF::visitor()->hasPermission('conversation', 'sv_lazyload_enable'));
         }
     }
 
@@ -91,11 +61,9 @@ class Listener
      */
     public static function threadControllerPostDispatch(/** @noinspection PhpUnusedParameterInspection */Controller $controller, $action, ParameterBag $params, /** @noinspection ReferencingObjectsInspection */AbstractReply &$reply)
     {
-        if (!self::$lazyLoadPermInit && $reply instanceof View && $thread = $reply->getParam('thread'))
+        if ($reply instanceof View && $thread = $reply->getParam('thread'))
         {
-            self::$lazyLoadPermInit = true;
-
-            Helper::instance()->setLazyLoadingEnabledState(\XF::visitor()->hasNodePermission($thread->node_id, 'sv_lazyload_enable'));
+            Helper::instance()->setLazyLoadingEnabledState((int)\XF::visitor()->hasNodePermission($thread->node_id, 'sv_lazyload_enable'));
         }
     }
 }

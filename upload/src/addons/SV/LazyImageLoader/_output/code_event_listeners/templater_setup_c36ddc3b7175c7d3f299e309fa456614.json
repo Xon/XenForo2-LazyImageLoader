@@ -1,0 +1,9 @@
+{
+    "event_id": "templater_setup",
+    "execute_order": 6057,
+    "callback_class": "SV\\LazyImageLoader\\Listener",
+    "callback_method": "templaterSetup",
+    "active": true,
+    "hint": "",
+    "description": "Inject lazy loader helper"
+}

@@ -1,9 +1,0 @@
-{
-    "event_id": "templater_template_pre_render",
-    "execute_order": 6057,
-    "callback_class": "SV\\LazyImageLoader\\Listener",
-    "callback_method": "templaterTemplatePreRender",
-    "active": true,
-    "hint": "public:sv_bbcode_bimg",
-    "description": "public:sv_bbcode_bimg"
-}
