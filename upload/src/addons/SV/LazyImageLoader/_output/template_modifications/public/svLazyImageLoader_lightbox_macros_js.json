@@ -1,0 +1,9 @@
+{
+    "template": "lightbox_macros",
+    "description": "Load additional file to reinit the images",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "xf/lightbox.js\" />",
+    "replace": "$0\n\n<xf:js src=\"sv/lazyimageloader/xf/lightbox.js\" addon=\"SV/LazyImageLoader\" min=\"1\" />"
+}
