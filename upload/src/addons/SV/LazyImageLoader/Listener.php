@@ -30,9 +30,37 @@ class Listener
         $templater->addDefaultParam('lzhelper', $helper);
     }
 
-    public static function templaterPostRender()
+    /**
+     * @param Templater $templater
+     * @param string    $type
+     * @param string    $template
+     * @param array     $params
+     *
+     * @throws \Exception
+     */
+    public static function templaterTemplatePreRender(/** @noinspection PhpUnusedParameterInspection */Templater $templater, &$type, &$template, array &$params)
     {
+        $params['lzhelper'] = Helper::instance();
+        if (!isset($params['__globals']))
+        {
+            // kinda silly
+            $params['__globals'] = $params;
+        }
+    }
 
+    /**
+     * @param Templater $templater
+     * @param string    $type
+     * @param string    $template
+     * @param string    $name
+     * @param array     $arguments
+     * @param array     $globalVars
+     *
+     * @throws \Exception
+     */
+    public static function templaterMacroPreRender(/** @noinspection PhpUnusedParameterInspection */Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
+    {
+        $globalVars['lzhelper'] = Helper::instance();
     }
 
     /**
