@@ -1,1 +1,1 @@
-Force Lazy Loaded Spoiler
+Force lazy loaded spoiler'ed images
