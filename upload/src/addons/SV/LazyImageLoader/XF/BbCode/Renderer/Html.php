@@ -80,22 +80,20 @@ class Html extends XFCP_Html
      */
     public function renderTagSpoiler(array $children, $option, array $tag, array $options)
     {
-        $originalImageTemplate = $this->imageTemplate;
+        if (self::$forceSpoilerLazyLoad)
+        {
+            self::$lazyLoadingEnabled = true;
+            Helper::instance()->setLazyLoadingEnabledState(true);
+        }
         try
         {
-            if (self::$forceSpoilerLazyLoad)
-            {
-                Helper::instance()->setLazyLoadingEnabledState(true);
-                $this->imageTemplate = \XF::$versionId > 2010000 ? static::$lazyLoadImageTemplate2 : static::$lazyLoadImageTemplate;
-            }
-
             return parent::renderTagSpoiler($children, $option, $tag, $options);
         }
         finally
         {
-            $this->imageTemplate = $originalImageTemplate;
             if (self::$forceSpoilerLazyLoad)
             {
+                self::$lazyLoadingEnabled = false;
                 Helper::instance()->setLazyLoadingEnabledState(false);
             }
         }
