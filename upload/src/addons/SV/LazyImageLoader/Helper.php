@@ -117,15 +117,6 @@ class Helper
                 'min'   => false,
             ]
         );
-
-        $this->templater->includeJs(
-            [
-                'addon' => 'SV/LazyImageLoader',
-                'prod'  => 'sv/lazyimageloader/xf/lightbox.min.js',
-                'dev'   => 'sv/lazyimageloader/xf/lightbox.js',
-                'min'   => false,
-            ]
-        );
     }
 
     /**
