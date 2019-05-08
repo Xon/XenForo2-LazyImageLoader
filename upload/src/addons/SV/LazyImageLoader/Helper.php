@@ -119,6 +119,11 @@ class Helper
         );
     }
 
+    public function getPlaceholderImage()
+    {
+        return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    }
+
     /**
      * @param array  $globals
      * @param string $url
@@ -133,7 +138,7 @@ class Helper
         }
         if ($this->lazyLoading())
         {
-            $placeholder = '';
+            $placeholder = $this->getPlaceholderImage();
             $this->enqueueJs();
 
             if (\XF::options()->lazyLoaderPlaceholderUrl)
