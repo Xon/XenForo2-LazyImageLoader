@@ -1,0 +1,15 @@
+{
+    "group_name": "svLazyImageLoader",
+    "title": "Lazy loading",
+    "description": "Styling for images yet to be loaded",
+    "property_type": "css",
+    "css_components": [
+        "extra"
+    ],
+    "value_type": "",
+    "value_parameters": "",
+    "depends_on": "",
+    "value_group": "",
+    "property_value": [],
+    "display_order": 10
+}

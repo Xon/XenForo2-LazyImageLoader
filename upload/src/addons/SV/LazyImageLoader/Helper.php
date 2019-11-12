@@ -117,6 +117,7 @@ class Helper
                 'min'   => false,
             ]
         );
+        $this->templater->includeCss('public:svLazyImageLoader.less');
     }
 
     public function getPlaceholderImage()
