@@ -1,20 +1,15 @@
-var SV = window.SV || {};
-SV.LazyImageLoader = SV.LazyImageLoader || {};
-
 (function($, window, document, _undefined)
 {
     "use strict";
 
-    // ################################## QUICK SEARCH ###########################################
-
-    SV.LazyImageLoader.Lightbox = XF.extend(XF.Lightbox, {
+    XF.Element.extend('lightbox', {
         __backup: {
-            'init': '_init'
+            'init': '_svLazy_Init'
         },
 
         init: function()
         {
-            this._init();
+            this._svLazy_Init();
 
             if (this.options.lbSingleImage)
             {
@@ -37,6 +32,4 @@ SV.LazyImageLoader = SV.LazyImageLoader || {};
             this.$target.trigger('lightbox:init');
         }
     });
-
-    XF.Element.register('lightbox', 'SV.LazyImageLoader.Lightbox');
 }) (jQuery, window, document);
