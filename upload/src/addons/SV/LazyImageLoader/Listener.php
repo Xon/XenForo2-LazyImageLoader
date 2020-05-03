@@ -15,9 +15,17 @@ use XF\Template\Templater;
  */
 class Listener
 {
-    public static function templaterSetup(/** @noinspection PhpUnusedParameterInspection */ \XF\Container $container, \XF\Template\Templater &$templater)
+    /**
+     * @param \XF\Container $container
+     * @param Templater     $templater
+     * @throws \Exception
+     * @noinspection PhpUnusedParameterInspection
+     * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
+     */
+    public static function templaterSetup(\XF\Container $container, \XF\Template\Templater &$templater)
     {
         $helper = Helper::instance();
+        /** @noinspection PhpStatementHasEmptyBodyInspection */
         if ($templater instanceof \XF\Mail\Templater)
         {
             // do not enable lazy loading for emails
@@ -35,10 +43,10 @@ class Listener
      * @param string    $type
      * @param string    $template
      * @param array     $params
-     *
      * @throws \Exception
+     * @noinspection PhpUnusedParameterInspection
      */
-    public static function templaterTemplatePreRender(/** @noinspection PhpUnusedParameterInspection */Templater $templater, &$type, &$template, array &$params)
+    public static function templaterTemplatePreRender(Templater $templater, &$type, &$template, array &$params)
     {
         $params['lzhelper'] = Helper::instance();
         if (!isset($params['__globals']))
@@ -55,10 +63,10 @@ class Listener
      * @param string    $name
      * @param array     $arguments
      * @param array     $globalVars
-     *
      * @throws \Exception
+     * @noinspection PhpUnusedParameterInspection
      */
-    public static function templaterMacroPreRender(/** @noinspection PhpUnusedParameterInspection */Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
+    public static function templaterMacroPreRender(Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
     {
         $globalVars['lzhelper'] = Helper::instance();
     }
@@ -68,10 +76,11 @@ class Listener
      * @param string        $action
      * @param ParameterBag  $params
      * @param AbstractReply $reply
-     *
      * @throws \Exception
+     * @noinspection PhpUnusedParameterInspection
+     * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
      */
-    public static function conversationControllerPostDispatch(/** @noinspection PhpUnusedParameterInspection */Controller $controller, $action, ParameterBag $params, /** @noinspection ReferencingObjectsInspection */AbstractReply &$reply)
+    public static function conversationControllerPostDispatch(Controller $controller, $action, ParameterBag $params, AbstractReply &$reply)
     {
         if ($reply instanceof View)
         {
@@ -84,10 +93,11 @@ class Listener
      * @param string        $action
      * @param ParameterBag  $params
      * @param AbstractReply $reply
-     *
      * @throws \Exception
+     * @noinspection PhpUnusedParameterInspection
+     * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
      */
-    public static function threadControllerPostDispatch(/** @noinspection PhpUnusedParameterInspection */Controller $controller, $action, ParameterBag $params, /** @noinspection ReferencingObjectsInspection */AbstractReply &$reply)
+    public static function threadControllerPostDispatch(Controller $controller, $action, ParameterBag $params, AbstractReply &$reply)
     {
         if ($reply instanceof View && $thread = $reply->getParam('thread'))
         {

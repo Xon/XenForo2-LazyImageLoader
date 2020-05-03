@@ -52,6 +52,9 @@ class Helper
         return self::$helper;
     }
 
+    /**
+     * @param \XF\Template\Templater $templater
+     */
     public function allowEnabling(\XF\Template\Templater $templater)
     {
         $this->forceDisabled = false;
@@ -79,7 +82,7 @@ class Helper
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
     public function lazyLoading()
     {
@@ -94,13 +97,16 @@ class Helper
     /**
      * @param array $globals
      * @return bool
+     * @noinspection PhpUnusedParameterInspection
      */
-    public function isNotScripBlockNeeded(/** @noinspection PhpUnusedParameterInspection */ array $globals)
+    public function isNotScripBlockNeeded(array $globals)
     {
         return $this->lazyLoading();
     }
 
+    /** @var bool */
     protected $hasIncluded = false;
+
     public function enqueueJs()
     {
         if ($this->hasIncluded || $this->forceDisabled)
@@ -120,6 +126,9 @@ class Helper
         $this->templater->includeCss('public:svLazyImageLoader.less');
     }
 
+    /**
+     * @return string
+     */
     public function getPlaceholderImage()
     {
         return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -185,8 +194,9 @@ class Helper
     /**
      * @param array $globals
      * @return string
+     * @noinspection PhpUnusedParameterInspection
      */
-    public function getCss(/** @noinspection PhpUnusedParameterInspection */ array $globals)
+    public function getCss(array $globals)
     {
         $css = '';
 
