@@ -114,12 +114,17 @@ class Helper
             return;
         }
         $this->hasIncluded = true;
+        $nativeLazyLoading = !empty(\XF::options()->svNativeLazyLoading);
 
         $this->templater->includeJs(
             [
                 'addon' => 'SV/LazyImageLoader',
-                'prod'  => 'sv/lazyimageloader/lazysizes.min.js',
-                'dev'   => 'sv/lazyimageloader/lazysizes.js',
+                'prod'  => $nativeLazyLoading
+                    ? 'sv/lazyimageloader/lazy-compiled.js'
+                    : 'sv/lazyimageloader/lazysizes.min.js',//, sv/lazyimageloader/ls.config.js',
+                'dev'   => $nativeLazyLoading
+                    ? 'sv/lazyimageloader/lazysizes.js, sv/lazyimageloader/ls.native-loading.js, sv/lazyimageloader/ls.config.js'
+                    : 'sv/lazyimageloader/lazysizes.js',
                 'min'   => false,
             ]
         );

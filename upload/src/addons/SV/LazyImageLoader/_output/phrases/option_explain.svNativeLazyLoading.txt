@@ -1,0 +1,1 @@
+Requires a modern browser, otherwise falls back to js library code
