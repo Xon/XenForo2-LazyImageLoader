@@ -1,2 +1,2 @@
-Lazy load user avatars, threadmark icons.<br/>
+Lazy load user avatars, resource icons, and threadmark icons.<br/>
 This uses browser native lazy loading
