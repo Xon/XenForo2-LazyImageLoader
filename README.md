@@ -46,6 +46,8 @@ For "Forum Permissions" and "Conversation Permissions" sections.
 
 # Options
 
+"Lazy load icons" Lazy load user avatars, threadmark icons. This uses browser native lazy loading
+
 "Enable Outside threads/conversations" permits the lazy loading bbcode injection to run outside of those contexts. Inside those context it will still respect permissions.
 May still not work for all cases outside threads/conversations.
 

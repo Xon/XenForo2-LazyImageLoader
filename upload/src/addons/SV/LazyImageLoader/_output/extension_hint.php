@@ -7,3 +7,8 @@ namespace SV\LazyImageLoader\XF\BbCode\Renderer
 {
 	class XFCP_Html extends \XF\BbCode\Renderer\Html {}
 }
+
+namespace SV\LazyImageLoader\XF\Template
+{
+	class XFCP_Templater extends \XF\Template\Templater {}
+}
