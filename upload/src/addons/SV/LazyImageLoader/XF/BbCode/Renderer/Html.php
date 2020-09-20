@@ -51,6 +51,8 @@ class Html extends XFCP_Html
     }
 
     /**
+     * XF2.0 - XF2.1 support
+     *
      * @param array $children
      * @param mixed $option
      * @param array $tag
@@ -60,6 +62,12 @@ class Html extends XFCP_Html
      */
     public function renderTagImage(array $children, $option, array $tag, array $options)
     {
+        if (\XF::$versionId >= 2020000)
+        {
+            return parent::renderTagImage($children, $option, $tag, $options);
+        }
+
+        /** @noinspection PhpUndefinedFieldInspection */
         $originalImageTemplate = $this->imageTemplate;
         try
         {
@@ -75,6 +83,34 @@ class Html extends XFCP_Html
         {
             $this->imageTemplate = $originalImageTemplate;
         }
+    }
+
+    /**
+     * XF2.2+ support
+     *
+     * @param string $imageUrl
+     * @param string $validUrl
+     * @param array  $params
+     * @return string|void
+     */
+    protected function getRenderedImg($imageUrl, $validUrl, array $params = [])
+    {
+        if (self::$lazyLoadingEnabled)
+        {
+            Helper::instance()->enqueueJs();
+            if (empty($params['alignClass']))
+            {
+                $params['alignClass'] = '';
+            }
+            $params['alignClass'] .= ' lazyload';
+            $params['src'] = $imageUrl;
+        }
+        else
+        {
+            $params['lazyLoading']  = false;
+        }
+
+        return parent::getRenderedImg($imageUrl, $validUrl, $params);
     }
 
     /**
