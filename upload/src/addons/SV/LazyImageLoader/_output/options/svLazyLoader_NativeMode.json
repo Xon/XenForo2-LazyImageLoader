@@ -7,6 +7,6 @@
     "validation_method": "",
     "default_value": "1",
     "relations": {
-        "SV_LazyLoader": 100
+        "svLazyLoader": 80
     }
 }

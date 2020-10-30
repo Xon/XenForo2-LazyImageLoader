@@ -71,6 +71,7 @@ class Helper
 
     /**
      * @param bool $enabled
+     * @noinspection PhpMissingParamTypeInspection
      */
     public function setLazyLoadingEnabledState($enabled)
     {
@@ -88,7 +89,7 @@ class Helper
     {
         if ($this->lazyLoadingEnabled === null)
         {
-            $this->setLazyLoadingEnabledState(\XF::options()->SV_LazyLoader_EnableDefault);
+            $this->setLazyLoadingEnabledState(!empty(\XF::options()->svLazyLoader_EnableDefault));
         }
 
         return !$this->forceDisabled && $this->lazyLoadingEnabled;
@@ -114,7 +115,7 @@ class Helper
             return;
         }
         $this->hasIncluded = true;
-        $nativeLazyLoading = !empty(\XF::options()->svNativeLazyLoading);
+        $nativeLazyLoading = !empty(\XF::options()->svLazyLoader_NativeMode);
 
         $this->templater->includeJs(
             [
@@ -144,6 +145,7 @@ class Helper
      * @param string $url
      * @param bool   $urlNotEscaped
      * @return string
+     * @noinspection PhpMissingParamTypeInspection
      */
     public function getUrl(array $globals, $url, $urlNotEscaped = true)
     {
@@ -157,7 +159,7 @@ class Helper
             $this->enqueueJs();
 
             $options = \XF::options();
-            if ($options->lazyLoaderPlaceholderUrl)
+            if (!empty($options->svLazyLoader_PlaceholderUrl))
             {
                 $attachment = isset($globals['attachment']) ? $globals['attachment'] : null;
                 $full = !empty($globals['full']);
@@ -179,9 +181,9 @@ class Helper
                         }
                     }
 
-                    if ($width && $height)
+                    if ($width && $height && !empty($options->svLazyLoader_BlankSvg))
                     {
-                        $placeholder = strtr($options->svLazyLoaderBlankSvg, [
+                        $placeholder = strtr($options->svLazyLoader_BlankSvg, [
                             '{width}' => $width,
                             '{height}' => $height,
                         ]);

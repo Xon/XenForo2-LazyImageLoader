@@ -39,7 +39,7 @@ class Html extends XFCP_Html
         parent::__construct($formatter, $templater);
 
         self::$lazyLoadingEnabled = Helper::instance()->lazyLoading();
-        self::$forceSpoilerLazyLoad = !self::$lazyLoadingEnabled && \XF::options()->sv_forceLazySpoilerTag;
+        self::$forceSpoilerLazyLoad = !self::$lazyLoadingEnabled && !empty(\XF::options()->svLazyLoader_ForceLazySpoilerTag);
 
         if (!self::$updatedPlaceholders)
         {
@@ -74,6 +74,7 @@ class Html extends XFCP_Html
             if (self::$lazyLoadingEnabled)
             {
                 Helper::instance()->enqueueJs();
+                /** @noinspection PhpUndefinedFieldInspection */
                 $this->imageTemplate = static::$lazyLoadImageTemplate2;
             }
 
@@ -81,6 +82,7 @@ class Html extends XFCP_Html
         }
         finally
         {
+            /** @noinspection PhpUndefinedFieldInspection */
             $this->imageTemplate = $originalImageTemplate;
         }
     }
@@ -92,6 +94,8 @@ class Html extends XFCP_Html
      * @param string $validUrl
      * @param array  $params
      * @return string|void
+     * @noinspection PhpDocMissingThrowsInspection
+     * @noinspection PhpMissingParamTypeInspection
      */
     protected function getRenderedImg($imageUrl, $validUrl, array $params = [])
     {

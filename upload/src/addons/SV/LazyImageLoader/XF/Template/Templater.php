@@ -11,7 +11,7 @@ class Templater extends XFCP_Templater
 {
     protected function injectImgLazyAttribute($url)
     {
-        if ($url && !empty(\XF::options()->svLazyLoadIcons))
+        if ($url && !empty(\XF::options()->svLazyLoader_Icons))
         {
             $url = \str_replace('<img ', '<img loading="lazy" ', $url);
         }
