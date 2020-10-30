@@ -1,0 +1,9 @@
+{
+    "template": "bb_code_tag_img",
+    "description": "Inject Lazyload url/css/js",
+    "execution_order": 6057,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#(<img src=\")([^\"]+)(\".*?class=\"[^\"]+)(\".*?/>)#si",
+    "replace": "<xf:set var=\"$src\">$2</xf:set>\n$1{{ $__globals.lzhelper.getUrl($__globals, $src, false) |raw}}$3{{ $__globals.lzhelper.getCss($__globals) |raw}}$4\n<xf:if is=\"$__globals.lzhelper.isNotScripBlockNeeded($__globals)\">\n<noscript>$1$2$3$4</noscript>\n</xf:if>"
+}
