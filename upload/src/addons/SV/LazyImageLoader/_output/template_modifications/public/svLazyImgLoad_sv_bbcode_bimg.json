@@ -1,6 +1,6 @@
 {
     "template": "sv_bbcode_bimg",
-    "description": "Remove loading=\"lazy\" attribute",
+    "description": "Remove loading=\"lazy\" attribute (Advanced bb-code pack v1.6.7+)",
     "execution_order": 6057,
     "enabled": true,
     "action": "str_replace",

@@ -1,6 +1,6 @@
 {
     "template": "lightbox_macros",
-    "description": "Remove loading=\"lazy\" attribute",
+    "description": "Remove loading=\"lazy\" attribute (XF2.2+)",
     "execution_order": 6057,
     "enabled": true,
     "action": "str_replace",
