@@ -1,0 +1,9 @@
+{
+    "template": "bb_code_tag_attach",
+    "description": "Remove loading=\"lazy\" attribute",
+    "execution_order": 6057,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "loading=\"lazy\"",
+    "replace": ""
+}
