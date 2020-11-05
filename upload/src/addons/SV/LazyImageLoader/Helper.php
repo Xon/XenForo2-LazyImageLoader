@@ -122,10 +122,10 @@ class Helper
                 'addon' => 'SV/LazyImageLoader',
                 'prod'  => $nativeLazyLoading
                     ? 'sv/lazyimageloader/lazy-compiled.js'
-                    : 'sv/lazyimageloader/ls.config.js, sv/lazyimageloader/lazysizes.min.js',
+                    : 'sv/lazyimageloader/lazysizes.min.js',
                 'dev'   => $nativeLazyLoading
                     ? 'sv/lazyimageloader/ls.config.js, sv/lazyimageloader/lazysizes.js, sv/lazyimageloader/ls.native-loading.js'
-                    : 'sv/lazyimageloader/ls.config.js, sv/lazyimageloader/lazysizes.js',
+                    : 'sv/lazyimageloader/lazysizes.js',
                 'min'   => false,
             ]
         );
