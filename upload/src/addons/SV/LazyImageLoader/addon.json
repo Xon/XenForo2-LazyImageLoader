@@ -2,13 +2,16 @@
     "legacy_addon_id": "SV_LazyImageLoader",
     "title": "Lazy Image Loader",
     "description": "Load less.",
-    "version_id": 2060000,
+    "version_id": 1711535937,
     "version_string": "2.6.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",
     "faq_url": "",
     "support_url": "https://xenforo.com/community/resources/lazy-load-img.6057/",
-    "extra_urls": [],
+    "extra_urls": {
+        "License": "https://atelieraphelion.com/products/lazy-load-img.220/copyright",
+        "Add-on site": "https://atelieraphelion.com/products/lazy-load-img.220/"
+    },
     "require": {
         "SV/StandardLib": [
             2001180000,
