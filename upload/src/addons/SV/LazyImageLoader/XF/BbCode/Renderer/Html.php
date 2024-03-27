@@ -7,9 +7,7 @@ use XF\Str\Formatter;
 use XF\Template\Templater;
 
 /**
- * Class Html
- *
- * @package SV\LazyImageLoader\XF\BbCode\Renderer
+ * @extends \XF\BbCode\Renderer\Html
  */
 class Html extends XFCP_Html
 {
