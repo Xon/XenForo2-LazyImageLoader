@@ -15,7 +15,7 @@ class Setup extends AbstractSetup
     use StepRunnerUninstallTrait;
     use StepRunnerUpgradeTrait;
 
-    public function upgrade2050000Step1()
+    public function upgrade2050000Step1(): void
     {
         $this->renameOption('SV_LazyLoader_EnableDefault', 'svLazyLoader_EnableDefault');
         $this->renameOption('sv_forceLazySpoilerTag', 'svLazyLoader_ForceLazySpoilerTag');

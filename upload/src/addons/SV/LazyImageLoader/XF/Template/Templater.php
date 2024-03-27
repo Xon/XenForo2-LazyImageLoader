@@ -2,7 +2,9 @@
 
 namespace SV\LazyImageLoader\XF\Template;
 
+use SV\Threadmarks\Entity\ThreadmarkIndex;
 use XF\Mvc\Entity\Entity;
+use XFRM\Entity\ResourceItem;
 use function str_replace;
 
 /**
@@ -33,13 +35,13 @@ class Templater extends XFCP_Templater
         return $this->injectImgLazyAttribute((string)parent::fnAvatar($templater, $escape, $user, $size, $canonical, $attributes), \XF::$versionId > 2020000);
     }
 
-    public function fnThreadmarkIndexIcon(\SV\Threadmarks\XF\Template\Templater $templater, &$escape, Entity $content, \SV\Threadmarks\Entity\ThreadmarkIndex $threadmarkIndex, $size = 'l', array $attributes = [])
+    public function fnThreadmarkIndexIcon(\SV\Threadmarks\XF\Template\Templater $templater, &$escape, Entity $content, ThreadmarkIndex $threadmarkIndex, $size = 'l', array $attributes = [])
     {
         /** @noinspection PhpUndefinedMethodInspection */
         return $this->injectImgLazyAttribute((string)parent::fnThreadmarkIndexIcon($templater, $escape, $content, $threadmarkIndex, $size, $attributes), false);
     }
 
-    public function fnResourceIcon($templater, &$escape, \XFRM\Entity\ResourceItem $resource, $size = 'm', $href = '')
+    public function fnResourceIcon($templater, &$escape, ResourceItem $resource, $size = 'm', $href = '')
     {
         /** @noinspection PhpUndefinedMethodInspection */
         return $this->injectImgLazyAttribute((string)parent::fnResourceIcon($templater, $escape, $resource, $size, $href), \XF::$versionId > 2020000);

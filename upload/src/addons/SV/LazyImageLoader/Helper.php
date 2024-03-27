@@ -3,6 +3,7 @@
 namespace SV\LazyImageLoader;
 
 use XF\Entity\Attachment;
+use XF\Template\Templater;
 
 /**
  * Class Helper
@@ -11,96 +12,64 @@ use XF\Entity\Attachment;
  */
 class Helper
 {
-    /**
-     * @var null|Helper
-     */
+    /**  @var null|Helper */
     protected static $helper;
 
-    /**
-     * @var \XF\Template\Templater
-     */
+    /**  @var Templater */
     protected $templater;
 
-    /**
-     * @var bool
-     */
+    /**  @var bool */
     protected $forceDisabled = true;
 
-    /**
-     * @var bool|null
-     */
-    protected $lazyLoadingEnabled;
+    /** @var bool|null  */
+    protected $lazyLoadingEnabled = null;
 
-    /**
-     * @var bool
-     */
+    /**  @var bool */
     protected $hasLazyLoadingSetup = false;
 
-    /**
-     * @return Helper
-     * @throws \Exception
-     */
-    public static function instance()
+    public static function instance(): self
     {
         if (self::$helper === null)
         {
-            /** @noinspection ClassConstantCanBeUsedInspection */
-            $class = \XF::extendClass('SV\LazyImageLoader\Helper');
+            $class = \XF::extendClass(self::class);
             self::$helper = new $class();
         }
 
         return self::$helper;
     }
 
-    /**
-     * @param \XF\Template\Templater $templater
-     */
-    public function allowEnabling(\XF\Template\Templater $templater)
+    public function allowEnabling(Templater $templater): void
     {
         $this->forceDisabled = false;
         $this->templater = $templater;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasLazyLoadingSetup()
+    public function hasLazyLoadingSetup(): bool
     {
         return !$this->forceDisabled && $this->hasLazyLoadingSetup;
     }
 
-    /**
-     * @param bool $enabled
-     * @noinspection PhpMissingParamTypeInspection
-     */
-    public function setLazyLoadingEnabledState($enabled)
+    public function setLazyLoadingEnabledState(bool $enabled): void
     {
         if ($enabled)
         {
             $this->hasLazyLoadingSetup = true;
         }
-        $this->lazyLoadingEnabled = $enabled ? true : false;
+        $this->lazyLoadingEnabled = $enabled;
     }
 
-    /**
-     * @return bool
-     */
-    public function lazyLoading()
+    public function lazyLoading(): bool
     {
         if ($this->lazyLoadingEnabled === null)
         {
-            $this->setLazyLoadingEnabledState(!empty(\XF::options()->svLazyLoader_EnableDefault));
+            $this->setLazyLoadingEnabledState((bool)(\XF::options()->svLazyLoader_EnableDefault ?? true));
         }
 
         return !$this->forceDisabled && $this->lazyLoadingEnabled;
     }
 
-    /**
-     * @param array $globals
-     * @return bool
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function isNotScripBlockNeeded(array $globals)
+    /** @noinspection PhpUnusedParameterInspection */
+    public function isNotScripBlockNeeded(array $globals): bool
     {
         return $this->lazyLoading();
     }
@@ -108,7 +77,7 @@ class Helper
     /** @var bool */
     protected $hasIncluded = false;
 
-    public function enqueueJs()
+    public function enqueueJs(): void
     {
         if ($this->hasIncluded || $this->forceDisabled)
         {
@@ -132,26 +101,16 @@ class Helper
         $this->templater->includeCss('public:svLazyImageLoader.less');
     }
 
-    /**
-     * @return string
-     */
-    public function getPlaceholderImage()
+    public function getPlaceholderImage(): string
     {
         return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     }
 
-    /**
-     * @param array  $globals
-     * @param string $url
-     * @param bool   $urlNotEscaped
-     * @return string
-     * @noinspection PhpMissingParamTypeInspection
-     */
-    public function getUrl(array $globals, $url, $urlNotEscaped = true)
+    public function getUrl(array $globals, string $url, bool $urlNotEscaped = true): string
     {
         if ($urlNotEscaped)
         {
-            $url = htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false);
+            $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8', false);
         }
         if ($this->lazyLoading())
         {
@@ -161,7 +120,7 @@ class Helper
             $options = \XF::options();
             if (!empty($options->svLazyLoader_PlaceholderUrl))
             {
-                $attachment = isset($globals['attachment']) ? $globals['attachment'] : null;
+                $attachment = $globals['attachment'] ?? null;
                 $full = !empty($globals['full']);
                 if ($attachment instanceof Attachment)
                 {
@@ -198,12 +157,8 @@ class Helper
         return $url;
     }
 
-    /**
-     * @param array $globals
-     * @return string
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function getCss(array $globals)
+    /** @noinspection PhpUnusedParameterInspection */
+    public function getCss(array $globals): string
     {
         $css = '';
 

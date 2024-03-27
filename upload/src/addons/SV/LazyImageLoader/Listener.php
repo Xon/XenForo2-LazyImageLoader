@@ -1,28 +1,20 @@
 <?php
+/**
+ * @noinspection PhpUnusedParameterInspection
+ */
 
 namespace SV\LazyImageLoader;
 
+use XF\Container;
 use XF\Mvc\Controller;
 use XF\Mvc\ParameterBag;
 use XF\Mvc\Reply\AbstractReply;
 use XF\Mvc\Reply\View;
 use XF\Template\Templater;
 
-/**
- * Class Listener
- *
- * @package SV\LazyImageLoader
- */
-class Listener
+abstract class Listener
 {
-    /**
-     * @param \XF\Container $container
-     * @param Templater     $templater
-     * @throws \Exception
-     * @noinspection PhpUnusedParameterInspection
-     * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
-     */
-    public static function templaterSetup(\XF\Container $container, \XF\Template\Templater &$templater)
+    public static function templaterSetup(Container $container, Templater &$templater): void
     {
         $helper = Helper::instance();
         /** @noinspection PhpStatementHasEmptyBodyInspection */
@@ -38,15 +30,7 @@ class Listener
         $templater->addDefaultParam('lzhelper', $helper);
     }
 
-    /**
-     * @param Templater $templater
-     * @param string    $type
-     * @param string    $template
-     * @param array     $params
-     * @throws \Exception
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public static function templaterTemplatePreRender(Templater $templater, &$type, &$template, array &$params)
+    public static function templaterTemplatePreRender(Templater $templater, string &$type, string &$template, array &$params): void
     {
         $params['lzhelper'] = Helper::instance();
         if (!isset($params['__globals']))
@@ -56,52 +40,24 @@ class Listener
         }
     }
 
-    /**
-     * @param Templater $templater
-     * @param string    $type
-     * @param string    $template
-     * @param string    $name
-     * @param array     $arguments
-     * @param array     $globalVars
-     * @throws \Exception
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public static function templaterMacroPreRender(Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
+    public static function templaterMacroPreRender(Templater $templater, string &$type, string &$template, string &$name, array &$arguments, array &$globalVars): void
     {
         $globalVars['lzhelper'] = Helper::instance();
     }
 
-    /**
-     * @param Controller    $controller
-     * @param string        $action
-     * @param ParameterBag  $params
-     * @param AbstractReply $reply
-     * @throws \Exception
-     * @noinspection PhpUnusedParameterInspection
-     * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
-     */
-    public static function conversationControllerPostDispatch(Controller $controller, $action, ParameterBag $params, AbstractReply &$reply)
+    public static function conversationControllerPostDispatch(Controller $controller, string $action, ParameterBag $params, AbstractReply &$reply): void
     {
         if ($reply instanceof View)
         {
-            Helper::instance()->setLazyLoadingEnabledState((int)\XF::visitor()->hasPermission('conversation', 'sv_lazyload_enable'));
+            Helper::instance()->setLazyLoadingEnabledState((bool)\XF::visitor()->hasPermission('conversation', 'sv_lazyload_enable'));
         }
     }
 
-    /**
-     * @param Controller    $controller
-     * @param string        $action
-     * @param ParameterBag  $params
-     * @param AbstractReply $reply
-     * @throws \Exception
-     * @noinspection PhpUnusedParameterInspection
-     * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
-     */
-    public static function threadControllerPostDispatch(Controller $controller, $action, ParameterBag $params, AbstractReply &$reply)
+    public static function threadControllerPostDispatch(Controller $controller, string $action, ParameterBag $params, AbstractReply &$reply): void
     {
         if ($reply instanceof View && $thread = $reply->getParam('thread'))
         {
-            Helper::instance()->setLazyLoadingEnabledState((int)\XF::visitor()->hasNodePermission($thread->node_id, 'sv_lazyload_enable'));
+            Helper::instance()->setLazyLoadingEnabledState((bool)\XF::visitor()->hasNodePermission($thread->node_id, 'sv_lazyload_enable'));
         }
     }
 }
