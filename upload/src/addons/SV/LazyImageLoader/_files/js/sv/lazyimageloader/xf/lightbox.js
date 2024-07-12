@@ -1,35 +1,79 @@
-(function($, window, document, _undefined)
+var SV = window.SV || {};
+SV.$ = SV.$ || window.jQuery || null;
+
+;((window, document) =>
 {
-    "use strict";
+    'use strict';
+    var $ = SV.$;
 
     XF.Element.extend('lightbox', {
         __backup: {
             'init': '_svLazy_Init'
         },
 
-        init: function()
+        /**
+         * @type {HTMLElement}
+         */
+        targetEl: null,
+
+        init()
         {
             this._svLazy_Init();
 
+            this.targetEl = (this.target || this.$target.get(0));
+
             if (this.options.lbSingleImage)
             {
-                this.$target.find('img.bbImage.lazyload').on('lazyloaded', XF.proxy(this, 'lazyLoaded'));
+                const lazyLoads = this.targetEl.querySelectorAll('img.bbImage.lazyload');
+                if (!lazyLoads || !lazyLoads.length)
+                {
+                    console.error('No lazy loads found for %o', this.targetEl);
+                    return false;
+                }
+
+                if (typeof XF.on !== "function") // XF 2.2
+                {
+                    $(lazyLoads).on('lazyloaded', this.lazyLoaded.bind(this));
+                }
+                else
+                {
+                    XF.on(lazyLoads, 'lazyloaded', this.lazyLoaded.bind(this));
+                }
             }
             else
             {
-                var $containers = this.options.lbUniversal ? this.$target : this.$target.find(this.options.lbContainer);
-                var self = this;
-
-                $containers.each(function()
+                const containers = this.options.lbUniversal
+                    ? [this.targetEl]
+                    : this.targetEl.querySelectorAll(this.options.lbContainer)
+                ;
+                if (containers && containers.length)
                 {
-                    $(this).find('img.bbImage.lazyload').on('lazyloaded', XF.proxy(this, 'lazyLoaded'));
-                });
+                    containers.forEach(container => {
+                        const lazyLoads = container.querySelectorAll('img.bbImage.lazyload');
+                        if (!lazyLoads || !lazyLoads.length)
+                        {
+                            return false;
+                        }
+
+                        if (typeof XF.on !== "function") // XF 2.2
+                        {
+                            $(lazyLoads).on('lazyloaded', this.lazyLoaded.bind(this));
+                        }
+                        else
+                        {
+                            XF.on(lazyLoads, 'lazyloaded', this.lazyLoaded.bind(this));
+                        }
+                    })
+                }
             }
         },
 
-        lazyLoaded: function ()
+        /**
+         * @param {Event} e
+         */
+        lazyLoaded (e)
         {
-            this.$target.trigger('lightbox:init');
+            e.target.dispatchEvent(new Event('lightbox:init', { bubbles: true }));
         }
     });
-}) (jQuery, window, document);
+})(window, document)

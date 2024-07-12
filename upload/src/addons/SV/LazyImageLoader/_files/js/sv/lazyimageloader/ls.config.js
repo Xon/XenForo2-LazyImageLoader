@@ -7,10 +7,17 @@ window.lazySizesConfig.nativeLoading = {
 };
 SV = window.SV || {};
 SV.oldUnparseBbCode = XF.unparseBbCode;
-XF.unparseBbCode = function(html) {
-    var $div = $(document.createElement('div'));
-    $div.html(html);
-    $div.find('noscript').remove();
-    html = $div.html();
-    return SV.oldUnparseBbCode(html);
+XF.unparseBbCode = (html) =>
+{
+    const div = document.createElement('div');
+    div.innerHTML = html.trim();
+
+    // Remove <noscript> tags to ensure they never get parsed when not needed.
+    const noscriptTags = div.querySelectorAll('noscript')
+    noscriptTags.forEach(tag =>
+    {
+        tag.parentNode.removeChild(tag)
+    })
+
+    return SV.oldUnparseBbCode(div.innerHTML);
 };
