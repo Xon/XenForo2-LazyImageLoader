@@ -5,11 +5,6 @@ namespace SV\LazyImageLoader;
 use XF\Entity\Attachment;
 use XF\Template\Templater;
 
-/**
- * Class Helper
- *
- * @package SV\LazyImageLoader
- */
 class Helper
 {
     /**  @var null|Helper */
@@ -17,6 +12,9 @@ class Helper
 
     /**  @var Templater */
     protected $templater;
+
+    /** @var bool */
+    protected $hasIncluded = false;
 
     /**  @var bool */
     protected $forceDisabled = true;
@@ -27,15 +25,31 @@ class Helper
     /**  @var bool */
     protected $hasLazyLoadingSetup = false;
 
+    /** @var bool */
+    protected $nativeLazyLoading = false;
+
+    /** @var bool */
+    protected $placeholderUrl = false;
+
+    /** @var string */
+    protected $blankSvg = '';
+
     public static function instance(): self
     {
         if (self::$helper === null)
         {
-            $class = \XF::extendClass(self::class);
-            self::$helper = new $class();
+            self::$helper = \SV\StandardLib\Helper::newExtendedClass(self::class);
         }
 
         return self::$helper;
+    }
+
+    protected function __construct()
+    {
+        $options = \XF::options();
+        $this->nativeLazyLoading = (bool)($options->svLazyLoader_NativeMode ?? $this->nativeLazyLoading);
+        $this->placeholderUrl = (bool)($options->svLazyLoader_PlaceholderUrl ?? $this->placeholderUrl);
+        $this->blankSvg = (string)($options->svLazyLoader_BlankSvg ?? $this->blankSvg);
     }
 
     public function allowEnabling(Templater $templater): void
@@ -74,9 +88,6 @@ class Helper
         return $this->lazyLoading();
     }
 
-    /** @var bool */
-    protected $hasIncluded = false;
-
     public function enqueueJs(): void
     {
         if ($this->hasIncluded || $this->forceDisabled)
@@ -84,15 +95,14 @@ class Helper
             return;
         }
         $this->hasIncluded = true;
-        $nativeLazyLoading = !empty(\XF::options()->svLazyLoader_NativeMode);
 
         $this->templater->includeJs(
             [
                 'addon' => 'SV/LazyImageLoader',
-                'prod'  => $nativeLazyLoading
+                'prod'  => $this->nativeLazyLoading
                     ? 'sv/lazyimageloader/lazy-compiled.js'
                     : 'sv/lazyimageloader/lazysizes.min.js',
-                'dev'   => $nativeLazyLoading
+                'dev'   => $this->nativeLazyLoading
                     ? 'sv/lazyimageloader/ls.config.js, sv/lazyimageloader/lazysizes.js, sv/lazyimageloader/ls.native-loading.js'
                     : 'sv/lazyimageloader/lazysizes.js',
                 'min'   => false,
@@ -117,8 +127,7 @@ class Helper
             $placeholder = $this->getPlaceholderImage();
             $this->enqueueJs();
 
-            $options = \XF::options();
-            if (!empty($options->svLazyLoader_PlaceholderUrl))
+            if ($this->placeholderUrl && $this->blankSvg !== '')
             {
                 $attachment = $globals['attachment'] ?? null;
                 $full = !empty($globals['full']);
@@ -140,9 +149,9 @@ class Helper
                         }
                     }
 
-                    if ($width && $height && !empty($options->svLazyLoader_BlankSvg))
+                    if ($width !== 0 && $height !== 0)
                     {
-                        $placeholder = strtr($options->svLazyLoader_BlankSvg, [
+                        $placeholder = strtr($this->blankSvg, [
                             '{width}' => $width,
                             '{height}' => $height,
                         ]);
