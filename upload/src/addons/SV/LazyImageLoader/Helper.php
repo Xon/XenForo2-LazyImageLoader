@@ -44,7 +44,7 @@ class Helper
         return self::$helper;
     }
 
-    protected function __construct()
+    public function __construct()
     {
         $options = \XF::options();
         $this->nativeLazyLoading = (bool)($options->svLazyLoader_NativeMode ?? $this->nativeLazyLoading);
