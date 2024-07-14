@@ -37,7 +37,9 @@ SV.$ = SV.$ || window.jQuery || null;
                 }
                 else
                 {
-                    XF.on(lazyLoads, 'lazyloaded', this.lazyLoaded.bind(this));
+                    lazyLoads.forEach((lazyLoad) => {
+                        XF.on(lazyLoad, 'lazyloaded', this.lazyLoaded.bind(this));
+                    });
                 }
             }
             else
@@ -61,7 +63,9 @@ SV.$ = SV.$ || window.jQuery || null;
                         }
                         else
                         {
-                            XF.on(lazyLoads, 'lazyloaded', this.lazyLoaded.bind(this));
+                            lazyLoads.forEach((lazyLoad) => {
+                                XF.on(lazyLoad, 'lazyloaded', this.lazyLoaded.bind(this));
+                            });
                         }
                     })
                 }
