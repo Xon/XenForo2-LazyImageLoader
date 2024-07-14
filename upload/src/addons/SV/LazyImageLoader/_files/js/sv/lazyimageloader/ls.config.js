@@ -9,6 +9,8 @@ SV = window.SV || {};
 SV.oldUnparseBbCode = XF.unparseBbCode;
 XF.unparseBbCode = (html) =>
 {
+    html = html || '';
+
     const div = document.createElement('div');
     div.innerHTML = html.trim();
 
