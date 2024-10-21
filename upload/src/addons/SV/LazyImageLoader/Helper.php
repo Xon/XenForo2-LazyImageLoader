@@ -101,10 +101,10 @@ class Helper
                 'addon' => 'SV/LazyImageLoader',
                 'prod'  => $this->nativeLazyLoading
                     ? 'sv/lazyimageloader/lazy-compiled.js'
-                    : 'sv/lazyimageloader/lazysizes.min.js',
+                    : 'sv/lazyimageloader/vendor/aFarkas/lazysizes/lazysizes.min.js',
                 'dev'   => $this->nativeLazyLoading
-                    ? 'sv/lazyimageloader/ls.config.js, sv/lazyimageloader/lazysizes.js, sv/lazyimageloader/ls.native-loading.js'
-                    : 'sv/lazyimageloader/lazysizes.js',
+                    ? 'sv/lazyimageloader/ls.config.js, sv/lazyimageloader/vendor/aFarkas/lazysizes/lazysizes.js, sv/lazyimageloader/vendor/aFarkas/lazysizes/native-loading/ls.native-loading.js'
+                    : 'sv/lazyimageloader/vendor/aFarkas/lazysizes/lazysizes.js',
                 'min'   => false,
             ]
         );

@@ -4,7 +4,7 @@ SV.$ = SV.$ || window.jQuery || null;
 ;((window, document) =>
 {
     'use strict';
-    var $ = SV.$;
+    var $ = SV.$, xf22 = typeof XF.on !== "function";
 
     XF.Element.extend('lightbox', {
         __backup: {
@@ -31,16 +31,18 @@ SV.$ = SV.$ || window.jQuery || null;
                     return false;
                 }
 
-                if (typeof XF.on !== "function") // XF 2.2
+                if (xf22)
                 {
                     $(lazyLoads).on('lazyloaded', this.lazyLoaded.bind(this));
                 }
+                /*
                 else
                 {
                     lazyLoads.forEach((lazyLoad) => {
                         XF.on(lazyLoad, 'lazyloaded', this.lazyLoaded.bind(this));
                     });
                 }
+                 */
             }
             else
             {
@@ -57,16 +59,18 @@ SV.$ = SV.$ || window.jQuery || null;
                             return false;
                         }
 
-                        if (typeof XF.on !== "function") // XF 2.2
+                        if (xf22)
                         {
                             $(lazyLoads).on('lazyloaded', this.lazyLoaded.bind(this));
                         }
+                        /*
                         else
                         {
                             lazyLoads.forEach((lazyLoad) => {
                                 XF.on(lazyLoad, 'lazyloaded', this.lazyLoaded.bind(this));
                             });
                         }
+                         */
                     })
                 }
             }
