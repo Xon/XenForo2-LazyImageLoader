@@ -88,6 +88,7 @@ class Helper
         return $this->lazyLoading();
     }
 
+    /** @noinspection SpellCheckingInspection */
     public function enqueueJs(): void
     {
         if ($this->hasIncluded || $this->forceDisabled)
@@ -113,6 +114,7 @@ class Helper
 
     public function getPlaceholderImage(): string
     {
+        /** @noinspection SpellCheckingInspection */
         return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     }
 

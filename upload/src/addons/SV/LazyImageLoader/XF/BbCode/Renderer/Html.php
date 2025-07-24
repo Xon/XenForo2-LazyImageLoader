@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\LazyImageLoader\XF\BbCode\Renderer;
 
@@ -13,25 +16,11 @@ class Html extends XFCP_Html
 {
     protected static $updatedPlaceholders = false;
     protected static $lazyLoadImageTemplate2 = '<img src="{PLACEHOLDER}" data-src="%1$s" data-url="%2$s" class="bbImage lazyload %3$s" style="%4$s" alt="%5$s" title="%5$s" /><noscript><img src="%1$s" class="bbImage %3$s"  alt="%5$s" title="%5$s"></noscript>';
+    /** @var null|bool */
+    protected static $lazyLoadingEnabled = null;
+    /** @var null|bool */
+    protected static $forceSpoilerLazyLoad = null;
 
-    /**
-     * @var null|bool
-     */
-    protected static $lazyLoadingEnabled;
-
-    /**
-     * @var null|bool
-     */
-    protected static $forceSpoilerLazyLoad;
-
-    /**
-     * Html constructor.
-     *
-     * @param Formatter $formatter
-     * @param Templater $templater
-     *
-     * @throws \Exception
-     */
     public function __construct(Formatter $formatter, Templater $templater)
     {
         parent::__construct($formatter, $templater);
@@ -55,8 +44,9 @@ class Html extends XFCP_Html
      * @param mixed $option
      * @param array $tag
      * @param array $options
-     * @return null|string|string[]
-     * @throws \Exception
+     * @return string
+     * @noinspection PhpDynamicFieldDeclarationInspection
+     * @noinspection PhpUndefinedFieldInspection
      */
     public function renderTagImage(array $children, $option, array $tag, array $options)
     {
@@ -65,14 +55,12 @@ class Html extends XFCP_Html
             return parent::renderTagImage($children, $option, $tag, $options);
         }
 
-        /** @noinspection PhpUndefinedFieldInspection */
         $originalImageTemplate = $this->imageTemplate;
         try
         {
             if (self::$lazyLoadingEnabled)
             {
                 Helper::instance()->enqueueJs();
-                /** @noinspection PhpUndefinedFieldInspection */
                 $this->imageTemplate = static::$lazyLoadImageTemplate2;
             }
 
@@ -80,7 +68,6 @@ class Html extends XFCP_Html
         }
         finally
         {
-            /** @noinspection PhpUndefinedFieldInspection */
             $this->imageTemplate = $originalImageTemplate;
         }
     }
@@ -91,9 +78,7 @@ class Html extends XFCP_Html
      * @param string $imageUrl
      * @param string $validUrl
      * @param array  $params
-     * @return string|void
-     * @noinspection PhpDocMissingThrowsInspection
-     * @noinspection PhpMissingParamTypeInspection
+     * @return string
      */
     protected function getRenderedImg($imageUrl, $validUrl, array $params = [])
     {
@@ -120,9 +105,7 @@ class Html extends XFCP_Html
      * @param mixed $option
      * @param array $tag
      * @param array $options
-     *
      * @return string
-     * @throws \Exception
      */
     public function renderTagSpoiler(array $children, $option, array $tag, array $options)
     {

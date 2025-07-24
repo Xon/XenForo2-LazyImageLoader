@@ -27,11 +27,13 @@ abstract class Listener
             $helper->allowEnabling($templater);
         }
 
+        /** @noinspection SpellCheckingInspection */
         $templater->addDefaultParam('lzhelper', $helper);
     }
 
     public static function templaterTemplatePreRender(Templater $templater, string &$type, string &$template, array &$params): void
     {
+        /** @noinspection SpellCheckingInspection */
         $params['lzhelper'] = Helper::instance();
         if (!isset($params['__globals']))
         {
@@ -42,6 +44,7 @@ abstract class Listener
 
     public static function templaterMacroPreRender(Templater $templater, string &$type, string &$template, string &$name, array &$arguments, array &$globalVars): void
     {
+        /** @noinspection SpellCheckingInspection */
         $globalVars['lzhelper'] = Helper::instance();
     }
 
