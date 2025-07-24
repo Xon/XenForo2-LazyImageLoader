@@ -130,14 +130,21 @@ class Helper
             if ($this->placeholderUrl && $this->blankSvg !== '')
             {
                 $attachment = $globals['attachment'] ?? null;
-                $full = !empty($globals['full']);
-                if ($attachment instanceof Attachment)
+                $width = (int)($globals['width'] ?? $globals['displayAttrs']['width'] ?? 0);
+                $height = (int)($globals['height'] ?? $globals['displayAttrs']['height'] ?? 0);
+                if ($width !== 0 && $height !== 0)
                 {
-                    $width = $height = 0;
+                    $placeholder = strtr($this->blankSvg, [
+                        '{width}' => $width,
+                        '{height}' => $height,
+                    ]);
+                }
+                else if ($attachment instanceof Attachment)
+                {
                     $attachmentData = $attachment->Data;
                     if ($attachmentData)
                     {
-                        if ($full)
+                        if ($globals['full'] ?? false)
                         {
                             $width = $attachmentData->width;
                             $height = $attachmentData->height;
